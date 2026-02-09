@@ -469,7 +469,7 @@
           <div class="modal-subtext">Please wait</div>
         </div>
 
-        <div id="successState" style="display: none">
+        <!-- <div id="successState" style="display: none">
           <div class="success-icon">
             <svg
               width="40"
@@ -486,6 +486,67 @@
           </div>
           <div class="modal-text">RSVP Confirmed!</div>
           <div class="modal-subtext">Thank you for registering</div>
+          <button class="close-btn" onclick="closeModal()">Close</button>
+        </div> -->
+
+        <div id="successState" style="display: none">
+          <div class="success-icon">
+            <svg
+              width="40"
+              height="40"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="white"
+              stroke-width="3"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <polyline points="20 6 9 17 4 12"></polyline>
+            </svg>
+          </div>
+          <div class="modal-text">RSVP Confirmed!</div>
+          <!-- <div class="modal-subtext">Thank you for registering</div> -->
+
+          <div>
+            <div
+              style="
+                font-size: 14px;
+                color: #730000;
+                margin-bottom: 12px;
+                font-weight: 600;
+              "
+            >
+              Share with friends
+            </div>
+
+            <div
+              style="
+                display: flex;
+                gap: 10px;
+                justify-content: center;
+                margin-bottom: 20px;
+                padding-bottom: 20px;
+                border-bottom: 2px solid rgba(115, 0, 0, 0.1);
+              "
+            >
+              <button
+                onclick="copyLink()"
+                style="
+                  padding: 10px 16px;
+                  background: #730000;
+                  color: white;
+                  border: none;
+                  border-radius: 6px;
+                  cursor: pointer;
+                  font-size: 14px;
+                  font-weight: 600;
+                "
+              >
+                Copy Link
+              </button>
+            </div>
+          </div>
+
           <button class="close-btn" onclick="closeModal()">Close</button>
         </div>
 
@@ -579,12 +640,12 @@
 
             setTimeout(() => {
               updateHeadcount();
-            }, 2000);
+            }, 1000);
 
-            setTimeout(() => {
-              closeModal();
-              submitBtn.disabled = false;
-            }, 3000);
+            // setTimeout(() => {
+            //   closeModal();
+            //   submitBtn.disabled = false;
+            // }, 10000);
           } catch (error) {
             console.error("Error submitting RSVP:", error);
 
@@ -595,6 +656,12 @@
           }
         });
       });
+
+      function copyLink() {
+        navigator.clipboard.writeText(window.location.href).then(() => {
+          alert("Link copied to clipboard!");
+        });
+      }
     </script>
 
     <div class="container">
@@ -648,7 +715,7 @@
                   id="name"
                   name="name"
                   required
-                  placeholder="Your name"
+                  placeholder="your name"
                 />
               </div>
 

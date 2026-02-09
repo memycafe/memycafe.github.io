@@ -346,7 +346,6 @@
         display: block;
       }
 
-      /* Modal Overlay */
       .modal-overlay {
         display: none;
         position: fixed;
@@ -365,27 +364,18 @@
         display: flex;
       }
 
-      /* Modal Content */
-      .modal-content {
-        background: #fff;
-        border-radius: 20px;
-        padding: 40px;
-        max-width: 400px;
-        width: 90%;
-        text-align: center;
-        box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
-        position: relative;
-        animation: modalSlideIn 0.3s ease-out;
-      }
-
-      /* .flyer_class {
-        width: 100%;
-        border-radius: 20px;
-      } */
-
       .flyer img {
         width: 100%;
         border-radius: 20px;
+      }
+
+      @keyframes spin {
+        from {
+          transform: rotate(0deg);
+        }
+        to {
+          transform: rotate(360deg);
+        }
       }
 
       @keyframes modalSlideIn {
@@ -399,41 +389,46 @@
         }
       }
 
-      /* Loading Spinner */
+      .modal-content {
+        background: #e8dcc8;
+        border-radius: 20px;
+        padding: 40px;
+        max-width: 400px;
+        width: 90%;
+        text-align: center;
+        box-shadow: 0 20px 60px rgba(115, 0, 0, 0.3);
+        position: relative;
+        animation: modalSlideIn 0.3s ease-out;
+        border: 3px solid #730000;
+      }
+
       .spinner {
         width: 60px;
         height: 60px;
         margin: 0 auto 20px;
-        border: 4px solid rgba(179, 33, 52, 0.1);
-        border-top-color: #b32134;
+        border: 4px solid rgba(115, 0, 0, 0.2);
+        border-top-color: #730000;
         border-radius: 50%;
         animation: spin 1s linear infinite;
       }
 
-      @keyframes spin {
-        to {
-          transform: rotate(360deg);
-        }
-      }
-
       .modal-text {
         font-size: 18px;
-        color: #333;
+        color: #730000;
         font-weight: 600;
         margin-bottom: 10px;
       }
 
       .modal-subtext {
         font-size: 14px;
-        color: #888;
+        color: #a3999a;
       }
 
-      /* Success State */
       .success-icon {
         width: 80px;
         height: 80px;
         margin: 0 auto 20px;
-        background: #228b22;
+        background: #730000;
         border-radius: 50%;
         display: flex;
         align-items: center;
@@ -441,26 +436,10 @@
         animation: scaleIn 0.5s ease-out;
       }
 
-      @keyframes scaleIn {
-        from {
-          transform: scale(0);
-        }
-        to {
-          transform: scale(1);
-        }
-      }
-
-      .success-icon::after {
-        content: "✓";
-        color: white;
-        font-size: 48px;
-        font-weight: bold;
-      }
-
       .close-btn {
         margin-top: 20px;
         padding: 12px 32px;
-        background: #b32134;
+        background: #730000;
         color: white;
         border: none;
         border-radius: 8px;
@@ -471,7 +450,7 @@
       }
 
       .close-btn:hover {
-        background: #8b1928;
+        background: #5a0000;
       }
 
       @media (max-width: 768px) {
@@ -482,25 +461,34 @@
     </style>
   </head>
   <body>
-    <!-- Loading/Success Modal -->
     <div id="modalOverlay" class="modal-overlay">
       <div class="modal-content" id="modalContent">
-        <!-- Loading state (default) -->
         <div id="loadingState">
           <div class="spinner"></div>
           <div class="modal-text">Submitting your RSVP...</div>
           <div class="modal-subtext">Please wait</div>
         </div>
 
-        <!-- Success state (hidden by default) -->
         <div id="successState" style="display: none">
-          <div class="success-icon"></div>
+          <div class="success-icon">
+            <svg
+              width="40"
+              height="40"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="white"
+              stroke-width="3"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <polyline points="20 6 9 17 4 12"></polyline>
+            </svg>
+          </div>
           <div class="modal-text">RSVP Confirmed!</div>
           <div class="modal-subtext">Thank you for registering</div>
           <button class="close-btn" onclick="closeModal()">Close</button>
         </div>
 
-        <!-- Error state (hidden by default) -->
         <div id="errorState" style="display: none">
           <div style="font-size: 48px; margin-bottom: 20px">✗</div>
           <div class="modal-text">Submission Failed</div>
@@ -511,7 +499,6 @@
     </div>
 
     <script>
-      // Fetch and update headcount
       async function updateHeadcount() {
         const SCRIPT_URL =
           "https://script.google.com/macros/s/AKfycbyhuPDhyIT2RJGdzR_R-zKzSiCBhQFv-c-3QhRSJSYSJOnVa050tcERfvo5N4Y4aYQeVQ/exec";
@@ -524,7 +511,6 @@
             const headcountElement = document.getElementById("headcount");
             const count = data.count;
 
-            // Display count rounded down to nearest 20 with "+"
             if (count >= 20) {
               const roundedCount = Math.floor(count / 20) * 20;
               headcountElement.textContent = roundedCount + "+ people going";
@@ -534,7 +520,6 @@
           }
         } catch (error) {
           console.error("Error fetching headcount:", error);
-          // Keep default "50+" on error
         }
       }
 
@@ -542,31 +527,26 @@
         const modal = document.getElementById("modalOverlay");
         modal.classList.remove("active");
 
-        // Reset modal states
         document.getElementById("loadingState").style.display = "block";
         document.getElementById("successState").style.display = "none";
         document.getElementById("errorState").style.display = "none";
       }
 
       document.addEventListener("DOMContentLoaded", function () {
-        // Update headcount on page load
         updateHeadcount();
 
         const form = document.getElementById("rsvpForm");
         const submitBtn = document.getElementById("submitBtn");
         const modal = document.getElementById("modalOverlay");
 
-        // TODO: Replace with your Google Apps Script web app URL
         const SCRIPT_URL =
           "https://script.google.com/macros/s/AKfycbyhuPDhyIT2RJGdzR_R-zKzSiCBhQFv-c-3QhRSJSYSJOnVa050tcERfvo5N4Y4aYQeVQ/exec";
         form.addEventListener("submit", async function (e) {
           e.preventDefault();
 
-          // Show loading modal
           modal.classList.add("active");
           submitBtn.disabled = true;
 
-          // Get form data
           const contactValue = document.getElementById("email").value;
           const phoneValue = document.getElementById("phone").value;
 
@@ -581,7 +561,6 @@
           };
 
           try {
-            // Submit to Google Sheets via Apps Script
             await fetch(SCRIPT_URL, {
               method: "POST",
               mode: "no-cors",
@@ -591,22 +570,17 @@
               body: JSON.stringify(formData),
             });
 
-            // Simulate a brief delay for better UX
             await new Promise((resolve) => setTimeout(resolve, 1000));
 
-            // Show success state
             document.getElementById("loadingState").style.display = "none";
             document.getElementById("successState").style.display = "block";
 
-            // Reset form
             form.reset();
 
-            // Update headcount after successful submission
             setTimeout(() => {
               updateHeadcount();
             }, 2000);
 
-            // Auto-close modal after 3 seconds
             setTimeout(() => {
               closeModal();
               submitBtn.disabled = false;
@@ -614,7 +588,6 @@
           } catch (error) {
             console.error("Error submitting RSVP:", error);
 
-            // Show error state
             document.getElementById("loadingState").style.display = "none";
             document.getElementById("errorState").style.display = "block";
 
@@ -626,21 +599,20 @@
 
     <div class="container">
       <div class="logo">
-        <img src="memy-logo.png" alt="Memy Cafe Logo" />
+        <img src="assets/memy-logo.png" alt="Memy Cafe Logo" />
       </div>
 
       <div class="content-wrapper">
         <div class="left-section">
           <div
-            style="margin-top: 30px; color: #888; font-size: 30px"
+            style="margin-top: 0px; color: #888; font-size: 30px"
             class="flyer"
           >
-            <img src="flyer.png" alt="" />
+            <img src="assets/flyer.png" alt="" />
           </div>
         </div>
 
         <div class="right-section">
-          <!-- Headcount Display -->
           <div
             style="
               background: rgba(179, 33, 52, 0.1);
@@ -659,7 +631,7 @@
                 font-weight: 400;
               "
             >
-              <span id="headcount">_ people going</span>
+              <span id="headcount">- people are going</span>
             </div>
           </div>
 
@@ -693,13 +665,13 @@
               </div>
 
               <div class="form-group">
-                <label for="phone">Phone Number </label>
+                <label for="phone">Phone Number (optional)</label>
                 <span class="form-hint"></span>
                 <input
                   type="text"
                   id="phone"
                   name="phone"
-                  placeholder="+15551234567 (optional, for text reminders)"
+                  placeholder="+15551234567"
                 />
               </div>
 

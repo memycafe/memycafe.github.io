@@ -574,7 +574,7 @@
             const count = data.count;
 
             if (count >= 20) {
-              const roundedCount = Math.floor(count / 20) * 20;
+              const roundedCount = Math.floor(count / 10) * 10;
               headcountElement.textContent = roundedCount + "+ people going";
             } else {
               headcountElement.textContent = count + " people going";

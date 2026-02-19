@@ -571,13 +571,13 @@
 
           if (data.success) {
             const headcountElement = document.getElementById("headcount");
-            const count = data.total;
+            const total = data.total;
 
             if (count >= 20) {
-              const roundedCount = Math.floor(count / 10) * 10;
+              const roundedCount = Math.floor(total / 10) * 10;
               headcountElement.textContent = roundedCount + "+ people going";
             } else {
-              headcountElement.textContent = count + " people going";
+              headcountElement.textContent = total + " people going";
             }
           }
         } catch (error) {

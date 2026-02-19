@@ -571,7 +571,7 @@
 
           if (data.success) {
             const headcountElement = document.getElementById("headcount");
-            const count = data.count;
+            const count = data.total;
 
             if (count >= 20) {
               const roundedCount = Math.floor(count / 10) * 10;
